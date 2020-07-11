@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -25,6 +26,7 @@ import com.hospital.model.Doctor;
 import com.hospital.model.Project;
 import com.hospital.util.PasswordGenerator;
 
+@CrossOrigin
 @RestController
 public class TrackingService {
 
@@ -112,7 +114,7 @@ public class TrackingService {
 	public ResponseEntity<List<Project>> getProjectBetweenDates(@RequestParam("start") Date startDate,
 			@RequestParam(name = "end", required = false) Date endDate) {
 
-		  //long millis=System.currentTimeMillis(); 
+		  
 		endDate = endDate == null ? new Date() : endDate;
 		List<Project> proList = projectRepo.findByStartDateBetween(startDate, endDate);
 		return new ResponseEntity<List<Project>>(proList, HttpStatus.OK);
