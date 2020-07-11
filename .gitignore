@@ -4,8 +4,8 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-tracking_system_logs/
-traking_system_logs/
+/tracking_system_logs/
+*.class
 ### STS ###
 .apt_generated
 .classpath
