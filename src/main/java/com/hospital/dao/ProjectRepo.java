@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.hospital.model.Project;
 
 public interface ProjectRepo extends CrudRepository<Project, Integer> {
-	Optional<Project> findByProjectId(Integer id);
+	Optional<Project> findByProjectId(String id);
 	List<Project> findByStartDateBetween(Date start,Date end);
 	
 }

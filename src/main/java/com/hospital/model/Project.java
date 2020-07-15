@@ -28,7 +28,7 @@ public class Project {
 	private int id;
 	
 	@Column(nullable = false, unique = true)
-	private int projectId;
+	private String projectId;
 	
 	@Column(nullable = false)
 	private String projectType;
@@ -61,8 +61,8 @@ public class Project {
 	}
 	
 	
-	public Project(int projectId) {
-		this.projectId = projectId;
+	public Project(int id) {
+		this.id = id;
 	}
 
 	public int getSamplesNumber() {
@@ -81,11 +81,11 @@ public class Project {
 		this.id = id;
 	}
 
-	public int getProjectId() {
+	public String getProjectId() {
 		return projectId;
 	}
 
-	public void setProjectId(int projectId) {
+	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
 

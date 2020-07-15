@@ -42,7 +42,7 @@ public class TrackingService {
 		return new ResponseEntity<>("Hello Mother Fuckers", HttpStatus.ACCEPTED);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path = "/doctor/new")
+	@RequestMapping(method = RequestMethod.POST, path = "/doctor/new")
 	public ResponseEntity<String> createDoctor(@RequestParam("email") String email) {
 		String password = PasswordGenerator.generateCommonLangPassword();
 		Doctor doctor = new Doctor(password, email);
@@ -99,8 +99,24 @@ public class TrackingService {
 
 	}
 
+	@RequestMapping(method = RequestMethod.PUT, path = "/project/update")
+	public ResponseEntity<String> updateProject(@RequestBody Project newProject) {
+		Optional<Project> bdResponse = projectRepo.findByProjectId(newProject.getProjectId());
+		if (bdResponse.isPresent()) {
+			Project project = bdResponse.get();
+			project.setStatus(newProject.getStatus());
+			project.setStartDate(newProject.getStartDate());
+			project.setEndDate(newProject.getEndDate());
+			project.setSamplesNumber(newProject.getSamplesNumber());
+			project.setProjectType(newProject.getProjectType());
+			projectRepo.save(project);
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} else
+			return new ResponseEntity<>("project not exists", HttpStatus.OK);
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, path = "/project/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Project> getProjectByID(@PathVariable("id") int projectId) {
+	public ResponseEntity<Project> getProjectByID(@PathVariable("pId") String projectId) {
 
 		Optional<Project> dbResponse = projectRepo.findByProjectId(projectId);
 
@@ -118,6 +134,19 @@ public class TrackingService {
 		endDate = endDate == null ? new Date() : endDate;
 		List<Project> proList = projectRepo.findByStartDateBetween(startDate, endDate);
 		return new ResponseEntity<List<Project>>(proList, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/project/status", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> getProjectStatus(@RequestParam("pId") String projectId) {
+
+		  
+		Optional<Project> dbResponse = projectRepo.findByProjectId(projectId);
+
+		if (dbResponse.isPresent())
+			return new ResponseEntity<Integer>(dbResponse.get().getStatus(), HttpStatus.OK);
+		else
+			return new ResponseEntity<Integer>(-1, HttpStatus.OK);
+	
 	}
 
 }
