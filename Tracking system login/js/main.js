@@ -1,65 +1,82 @@
-(function($) {
-  "use strict";
+var projectStatus = ["Receiving Samples", "Sample Preprocessing", "Sample Injection", "Post Analysis"];
 
+$('#statusTable').on('click', "tr", function(e) {
 
+  sessionStorage.setItem('projectId',$(this).children("td")[1].innerText);
+  //console.log($(this).children("td")[1].innerText);
+  window.location.href ="status.html";
+});
 
-  /*==================================================================
-  [ Validate ]*/
+function saveProjectsData(projects) {
+  var projectList = JSON.stringify(projects);
+  // console.log(JSON.parse(projectList));
+  sessionStorage.setItem("projects", projectList);
+}
 
+function drawTable(projects) {
+  projects.forEach(function(project) {
 
-  var input = $('.validate-input .input100');
+    $(".table_body").append('	<tr> <td class="column1">' + project.projectName + '</td>' +
+      '<td id="projectID" hidden>' + project.projectId + '</td>' +
+      '<td class="column2">' + project.samplesNumber + '</td>' +
+      '<td class="column3">' + project.startDate + '</td>' +
+      '<td class="column4">' + ((project.endDate) ? project.endDate : 'Not determined yet') + '</td>' +
+      '<td class="column5">' + project.projectType + '</td>' +
+      '<td class="column6">' + projectStatus[project.status - 1] + '</td></tr>');
 
-  $('.validate-form').on('submit', function() {
-    var check = true;
+  });
+}
 
-    for (var i = 0; i < input.length; i++) {
-      if (validate(input[i]) == false) {
-        showValidate(input[i]);
-        check = false;
-      }
+function loadTable(projects) {
+  $(".limiter").empty();
+  $(".limiter").load('./table.html', function(responseTxt, statusTxt, xhr) {
+    if (statusTxt == "success") {
+      drawTable(projects);
+      saveProjectsData(projects);
     }
-
-    return check;
+    if (statusTxt == "error")
+      swal("OOPs!", "Some Server Error Happened Please Try Later!", "error");
   });
+}
 
-
-  $('.validate-form .input100').each(function() {
-    $(this).focus(function() {
-      hideValidate(this);
-    });
-  });
-
-  function validate(input) {
-    if ($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
-      if ($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
-        return false;
+function login(username, password) {
+  $.ajax({
+    type: "POST",
+    headers: {
+      "email": username,
+      "pass": password
+    },
+    url: 'http://localhost:8080/doctor/login',
+    contentType: 'application/json',
+    success: function(data) {
+      console.log(data);
+      if (data.id !== -1) {
+        sessionStorage.setItem('email', data.userEmail);
+        sessionStorage.setItem('password', data.password);
+        loadTable(data.projects);
+      } else {
+        swal("OOPs!", "Wrong Email or Password!", "error");
       }
-    } else {
-      if ($(input).val().trim() == '') {
-        return false;
-      }
+
+    },
+    fail: function(jqXhr, textStatus, errorThrown) {
+      swal("OOPs!", "Some Server Error Happened Please Try Later!", "error");
+    },
+    error: function(jqXhr, textStatus, errorThrown) {
+      swal("OOPs!", "Some Client Side Error Happened Please Try Later!", "error");
     }
-  }
-
-  function showValidate(input) {
-    var thisAlert = $(input).parent();
-
-    $(thisAlert).addClass('alert-validate');
-  }
-
-  function hideValidate(input) {
-    var thisAlert = $(input).parent();
-
-    $(thisAlert).removeClass('alert-validate');
-  }
-
-  $("#login-form").submit(function(event) {
-    login($("#email").val(), $("#pass").val());
-    event.preventDefault();
-
   });
+}
 
 
 
-
-})(jQuery);
+function redirectIfLogedIn() {
+  if (sessionStorage.getItem('email')) {
+    login(sessionStorage.getItem('email'), sessionStorage.getItem('password'))
+  } else {
+    console.log('no user loged in');
+    $(".limiter").empty();
+    $(".limiter").load('./login.html');
+    //$(".wrap-login100").removeAttr("hidden");
+  }
+}

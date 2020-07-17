@@ -104,6 +104,7 @@ public class TrackingService {
 		Optional<Project> bdResponse = projectRepo.findByProjectId(newProject.getProjectId());
 		if (bdResponse.isPresent()) {
 			Project project = bdResponse.get();
+			project.setProjectName(newProject.getProjectName());
 			project.setStatus(newProject.getStatus());
 			project.setStartDate(newProject.getStartDate());
 			project.setEndDate(newProject.getEndDate());

@@ -31,6 +31,9 @@ public class Project {
 	private String projectId;
 	
 	@Column(nullable = false)
+	private String projectName;
+	
+	@Column(nullable = false)
 	private String projectType;
 	
 	@Column(nullable = false)
@@ -56,6 +59,10 @@ public class Project {
 	private int samplesNumber;
 	
 	
+	
+	
+
+
 	public Project() {
 		
 	}
@@ -128,6 +135,16 @@ public class Project {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 
 	
 }
