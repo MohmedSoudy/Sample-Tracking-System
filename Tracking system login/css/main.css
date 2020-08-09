@@ -63,7 +63,8 @@ a:hover {
 
 /*---------------------------------------------*/
 h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
+  margin: 0px;
+  
 }
 
 p {
@@ -361,7 +362,7 @@ iframe {
 
 @media (max-width: 992px) {
   .wrap-login100 {
-    padding: 177px 90px 33px 85px;
+    padding: 110px 90px 33px 85px;
   }
 
   .login100-pic {

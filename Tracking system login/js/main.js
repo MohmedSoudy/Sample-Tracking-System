@@ -1,11 +1,16 @@
-var projectStatus = ["Receiving Samples", "Sample Preprocessing", "Sample Injection", "Post Analysis"];
+var projectStatus = ["Receiving Samples", "Sample Preprocessing", "Sample Injection", "Post Analysis","Finished"];
 
-$('#statusTable').on('click', "tr", function(e) {
+function getClickedProject(){
+  document.querySelector('tbody').addEventListener('click',function(e) {
 
-  sessionStorage.setItem('projectId',$(this).children("td")[1].innerText);
-  //console.log($(this).children("td")[1].innerText);
-  window.location.href ="status.html";
-});
+
+    sessionStorage.setItem('projectId',e.target.parentElement.querySelector('#projectID').innerText);
+    console.log(e.target.parentElement.querySelector('#projectID').innerText);
+    window.location.href ="status.html";
+  });
+
+}
+
 
 function saveProjectsData(projects) {
   var projectList = JSON.stringify(projects);
@@ -32,6 +37,7 @@ function loadTable(projects) {
   $(".limiter").load('./table.html', function(responseTxt, statusTxt, xhr) {
     if (statusTxt == "success") {
       drawTable(projects);
+      getClickedProject();
       saveProjectsData(projects);
     }
     if (statusTxt == "error")

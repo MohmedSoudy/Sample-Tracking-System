@@ -35,7 +35,7 @@
   #progressbar li {
     list-style-type: none;
     font-size: 13px;
-    width: 25%;
+    width: 20%;
     float: left;
     position: relative;
     font-weight: 400
@@ -77,8 +77,8 @@
     left: -50%
   }
 
-  #progressbar li:nth-child(2):after,
-  #progressbar li:nth-child(3):after {
+  #progressbar li:nth-child(3):after,
+  #progressbar li:nth-child(4):after {
     left: -50%
   }
 
