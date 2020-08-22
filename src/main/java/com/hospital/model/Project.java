@@ -36,6 +36,9 @@ public class Project {
 	@Column(nullable = false)
 	private String projectType;
 	
+	@Column(nullable = true)
+	private String projectData;
+	
 	@Column(nullable = false)
 	private int status;
 	
@@ -71,6 +74,18 @@ public class Project {
 	public Project(int id) {
 		this.id = id;
 	}
+
+	
+	
+	public String getProjectData() {
+		return projectData;
+	}
+
+
+	public void setProjectData(String projectData) {
+		this.projectData = projectData;
+	}
+
 
 	public int getSamplesNumber() {
 		return samplesNumber;

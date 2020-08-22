@@ -14,7 +14,7 @@ function getClickedProject(){
 
 function saveProjectsData(projects) {
   var projectList = JSON.stringify(projects);
-  // console.log(JSON.parse(projectList));
+   console.log(JSON.parse(projectList));
   sessionStorage.setItem("projects", projectList);
 }
 

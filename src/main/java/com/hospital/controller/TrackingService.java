@@ -110,6 +110,7 @@ public class TrackingService {
 			project.setEndDate(newProject.getEndDate());
 			project.setSamplesNumber(newProject.getSamplesNumber());
 			project.setProjectType(newProject.getProjectType());
+			project.setProjectData(newProject.getProjectData());
 			projectRepo.save(project);
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		} else
@@ -117,7 +118,7 @@ public class TrackingService {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/project/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Project> getProjectByID(@PathVariable("pId") String projectId) {
+	public ResponseEntity<Project> getProjectByID(@PathVariable("id") String projectId) {
 
 		Optional<Project> dbResponse = projectRepo.findByProjectId(projectId);
 

@@ -26,4 +26,25 @@
     $("#progressbar").append(notActiveStep);
     index++;
   }
+
+  // <div class="text-center mt-4">
+  //       <a class="btn btn-info d-inline" href="undefined">Downlaod You Mother fucker</a></div>
+  if(project.status == 4){
+    let statusCard = document.querySelector('.card');
+    statusCard.classList.add('expandCard');
+    let df = document.createDocumentFragment();
+    let downloadDiv = document.createElement('div');
+    downloadDiv.classList.add('text-center');
+    downloadDiv.classList.add('mt-4');
+    let downloadLink  = document.createElement('a');
+    downloadLink.classList.add('btn');
+    downloadLink.classList.add('downloadLink');
+    downloadLink.classList.add('d-inline');
+    downloadLink.setAttribute('target',"_blank")
+    downloadLink.textContent = 'Downlaod Project Data';
+    downloadLink.setAttribute('href',project.projectData);
+    downloadDiv.appendChild(downloadLink);
+    df.appendChild(downloadDiv);
+    statusCard.appendChild(df);
+  }
 })(jQuery);
